@@ -1,0 +1,29 @@
+import threading
+import requests
+
+# Target URL = http://www.rajukcollege.edu.bd 
+target_url = "http://www.rajukcollege.edu.bd"
+
+# Number of requests to send
+num_requests = 100
+
+def send_request():
+    try:
+        response = requests.get(target_url)
+        print(f"Response Code: {response.status_code}")
+    except Exception as e:
+        print(f"Request failed: {e}")
+
+# Create threads for sending requests
+threads = []
+
+for i in range(num_requests):
+    thread = threading.Thread(target=send_request)
+    threads.append(thread)
+    thread.start()
+
+# Wait for all threads to complete
+for thread in threads:
+    thread.join()
+
+print("Stress test completed.")
